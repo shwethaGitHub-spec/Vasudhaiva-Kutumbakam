@@ -16,4 +16,8 @@ export const AppStackNavigator = createStackNavigator({
             headerShown: false
         }
     }
-}, {initialRouteName: "CharityWorkersScreen"});
+}, 
+    {
+        initialRouteName: "CharityWorkersScreen"
+    }
+);

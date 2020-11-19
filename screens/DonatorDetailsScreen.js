@@ -1,6 +1,6 @@
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
-import {Card, Header, Icon} from 'react-native-elements';
+import {Text, View, StyleSheet, ScrollView} from 'react-native';
+import {Card} from 'react-native-elements';
 import firebase from 'firebase';
 import db from '../config';
 
@@ -9,13 +9,15 @@ export default class DonatorDetailsScreen extends React.Component {
         super(props);
         this.state = {
             userId: firebase.auth().currentUser.email,
+            userName: "",
             donatorId: this.props.navigation.getParam("details")["user_id"],
             requestId: this.props.navigation.getParam("details")["request_id"],
             itemRequestedToDonate: this.props.navigation.g("details")["item_requested_to_donate"],
             donatorName: "",
             donatorContact: "",
             donatorAddress: "",
-            donatorRequestDocId: ""
+            donatorRequestDocId: "",
+            nameOfItemRequestedToDonate: ""
         }
     }
 
@@ -33,7 +35,18 @@ export default class DonatorDetailsScreen extends React.Component {
         db.collection("items_requested_to_donate").where("request_id", "==", this.state.requestId).get().then((snapshot) => {
             snapshot.forEach((doc) => {
                 this.setState({
-                    donatorRequestDocId: doc.id
+                    donatorRequestDocId: doc.id,
+                    nameOfItemRequestedToDonate: doc.data().item_requested_to_donate
+                });
+            });
+        });
+    }
+
+    getUserDetails = () => {
+        db.collection("charityWorkers").where("email_id", "==", this.state.userId).get().then((snapshot) => {
+            snapshot.forEach((doc) => {
+                this.setState({
+                    userName: doc.data().first_name + " " + doc.data().last_name
                 });
             });
         });
@@ -49,59 +62,75 @@ export default class DonatorDetailsScreen extends React.Component {
         });
     }
 
+    addNotification = () => {
+        var message = this.state.userName + " has shown interest in taking the " + this.state.nameOfItemRequestedToDonate + " you requested to donate ";
+        db.collection("all_notifications").add({
+            "donator_id": this.state.donatorId,
+            "charity_worker_id": this.state.userId,
+            "request_id": this.state.requestId,
+            "name_of_item_requested_to_donate": this.state.nameOfItemRequestedToDonate,
+            "message": message,
+            "notification_status": "unread",
+            "date": firebase.firestore.FieldValue.serverTimestamp(),
+        })
+    }
+
     componentDidMount() {
         this.getDonatorDetails();
     }
 
     render() {
         return (
-            <View style={styles.container}>
-                <View>
-                    <Card title={"Information of item requested to be donated"}  titleStyle={{fontSize: 20}}>
-                        <Card>
-                            <Text style={{fontWeight: 'bold'}}>
-                                Name: {this.state.itemRequestedToDonate}
-                            </Text>
+            <ScrollView>
+                <View style={styles.container}>
+                    <View>
+                        <Card title={"Information of item requested to be donated"}  titleStyle={{fontSize: 20}}>
+                            <Card>
+                                <Text style={{fontWeight: 'bold'}}>
+                                    Name: {this.state.itemRequestedToDonate}
+                                </Text>
+                            </Card>
                         </Card>
-                    </Card>
+                    </View>
+
+                    <View>
+                        <Card title = {'Information of the person who requested to donate'} titleStyle = {{fontSize: 20}}> 
+                            <Card>
+                                <Text style={{fontWeight: 'bold'}}>
+                                    Name: {this.state.donatorName}
+                                </Text>
+                            </Card>
+
+                            <Card>
+                                <Text style={{fontWeight: 'bold'}}>
+                                    Contact: {this.state.donatorContact}
+                                </Text>
+                            </Card>
+
+                            <Card>
+                                <Text style={{fontWeight: 'bold'}}>
+                                    Address: {this.state.donatorAddress}
+                                </Text>
+                            </Card>
+                        </Card>
+                    </View>
+
+                    <View style={styles.buttonContainer}>
+                        {this.state.donatorId !== this.state.userId ? (
+                            <TouchableOpacity 
+                                style={styles.button}
+                                onPress={() => {
+                                    this.updateRequestStatus();
+                                    this.addNotification();
+                                    this.props.navigation.navigate('MyAcceptedRequests');
+                                }}
+                            >
+                                <Text>I accept his request to donate</Text>
+                            </TouchableOpacity>
+                        ) : null}
+                    </View>
                 </View>
-
-                <View>
-                    <Card title = {'Information of the person who requested to donate'} titleStyle = {{fontSize: 20}}> 
-                        <Card>
-                            <Text style={{fontWeight: 'bold'}}>
-                                Name: {this.state.donatorName}
-                            </Text>
-                        </Card>
-
-                        <Card>
-                            <Text style={{fontWeight: 'bold'}}>
-                                Contact: {this.state.donatorContact}
-                            </Text>
-                        </Card>
-
-                        <Card>
-                            <Text style={{fontWeight: 'bold'}}>
-                                Address: {this.state.donatorAddress}
-                            </Text>
-                        </Card>
-                    </Card>
-                </View>
-
-                <View style={styles.buttonContainer}>
-                    {this.state.donatorId !== this.state.userId ? (
-                        <TouchableOpacity 
-                            style={styles.button}
-                            onPress={() => {
-                                this.updateRequestStatus();
-                                this.props.navigation.navigate('MyBarters');
-                            }}
-                        >
-                            <Text>I accept his request to donate</Text>
-                        </TouchableOpacity>
-                    ) : null}
-                </View>
-            </View>
+            </ScrollView>
         ); 
     }
 }

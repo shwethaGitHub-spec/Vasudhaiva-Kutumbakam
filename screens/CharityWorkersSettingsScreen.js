@@ -3,7 +3,6 @@ import {Text, View, StyleSheet, TextInput, TouchableOpacity, Alert} from 'react-
 import MyHeader from '../components/MyHeader';
 import db from '../config';
 import firebase from 'firebase';
-import { HitTestResultTypes } from 'expo/build/AR';
 
 export default class DonatorsSettingsScreen extends React.Component {
     constructor() {
@@ -24,15 +23,14 @@ export default class DonatorsSettingsScreen extends React.Component {
         
         db.collection('charityWorkers').where('email_id', '==', email).get().then((snapshot) => {
             snapshot.forEach((doc) => {
-                var data = doc.data();
                 this.setState({
-                    emailId: data.email_id,
-                    firstName: data.first_name,
-                    lastName: data.last_name,
-                    address: data.address,
-                    contact: data.contact,
-                    ngoAddress: data.ngo_address,
-                    docId: data.id
+                    emailId: doc.data().email_id,
+                    firstName: doc.data().first_name,
+                    lastName: doc.data().last_name,
+                    address: doc.data().address,
+                    contact: doc.data().contact,
+                    ngoAddress: doc.data().ngo_address,
+                    docId: doc.id
                 });
             });
         });

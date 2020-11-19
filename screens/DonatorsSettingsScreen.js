@@ -13,27 +13,26 @@ export default class DonatorsSettingsScreen extends React.Component {
             lastName: "",
             address: "",
             contact: "",
-            docId: ""
+            docId: "",
+            email: firebase.auth().currentUser.email
         }
 
         console.log(this.state.emailId);
     }
 
     getUserDetails = () => {
-        var user = firebase.auth().currentUser;
-        var email = user.email;
-        
-        db.collection('donators').where('email_id', '==', email).get().then((snapshot) => {
+        db.collection('donators').where('email_id', '==', this.state.email).get().then((snapshot) => {
             snapshot.forEach((doc) => {
-                var data = doc.data();
                 this.setState({
-                    emailId: data.email_id,
-                    firstName: data.first_name,
-                    lastName: data.last_name,
-                    address: data.address,
-                    contact: data.contact,
-                    docId: data.id
+                    emailId: doc.data().email_id,
+                    firstName: doc.data().first_name,
+                    lastName: doc.data().last_name,
+                    address: doc.data().address,
+                    contact: doc.data().contact,
+                    docId: doc.id
                 });
+
+                console.log(data);
             });
         });
     }
@@ -135,7 +134,8 @@ const styles = StyleSheet.create({
     formContainer:{
       flex:1,
       width:'100%',
-      alignItems: 'center'
+      alignItems: 'center',
+      backgroundColor: "#fff"
     },
     formTextInput:{
       width:"75%",

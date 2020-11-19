@@ -104,9 +104,9 @@ export default class LoginScreen extends React.Component {
                 <View style={styles.modalContainer}>
                     <ScrollView style={{width: "100%"}}>
                         <KeyboardAvoidingView style={styles.KeyboardAvoidingView} behavior="padding" enabled >
-                            {/*<RegistrationAnimation />*/}
+                            <RegistrationAnimation />
 
-                            <Text style={[styles.modalTitle, {marginTop: 25}]}>Registration</Text>
+                            <Text style={[styles.modalTitle, {marginTop: 25}]}>SIGN UP AS DONATOR</Text>
 
                             <TextInput 
                                 style={styles.input}
@@ -186,9 +186,9 @@ export default class LoginScreen extends React.Component {
                 <View style={styles.modalContainer}>
                     <ScrollView style={{width: "100%"}}>
                         <KeyboardAvoidingView style={styles.KeyboardAvoidingView} behavior="padding" enabled >
-                            {/*<RegistrationAnimation />*/}
+                            <RegistrationAnimation />
 
-                            <Text style={[styles.modalTitle, {marginTop: 25}]}>Registration</Text>
+                            <Text style={[styles.modalTitle, {marginTop: 25}]}>SIGN UP AS CHARITY WORKER</Text>
 
                             <TextInput 
                                 style={styles.input}
@@ -275,9 +275,9 @@ export default class LoginScreen extends React.Component {
                 <View style={styles.modalContainer}>
                     <ScrollView style={{width: "100%"}}>
                         <KeyboardAvoidingView style={styles.KeyboardAvoidingView} behavior="padding" enabled >
-                             {/*<RegistrationAnimation />*/}
+                            <RegistrationAnimation />
 
-                            <Text style={[styles.modalTitle, {marginTop: 25}]}>Registration</Text>
+                            <Text style={[styles.modalTitle, {marginTop: 25}]}>SIGN IN AS DONATOR</Text>
 
                             <TextInput 
                                 style={styles.input}
@@ -321,9 +321,9 @@ export default class LoginScreen extends React.Component {
                 <View style={styles.modalContainer}>
                     <ScrollView style={{width: "100%"}}>
                         <KeyboardAvoidingView style={styles.KeyboardAvoidingView} behavior="padding" enabled >
-                            {/*<RegistrationAnimation />*/}
+                            <RegistrationAnimation />
 
-                            <Text style={[styles.modalTitle, {marginTop: 25}]}>Registration</Text>
+                            <Text style={[styles.modalTitle, {marginTop: 25}]}>SIGN IN AS CHARITY WORKER</Text>
 
                             <TextInput 
                                 style={styles.input}

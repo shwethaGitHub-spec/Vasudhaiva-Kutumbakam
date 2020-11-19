@@ -3,7 +3,6 @@ import {Text, View, StyleSheet, TextInput, KeyboardAvoidingView, TouchableOpacit
 import db from '../config';
 import firebase from 'firebase';
 import MyHeader from '../components/MyHeader';
-import ThankyouAnimation from '../components/ThankyouAnimation';
 
 export class DonatorsScreen extends React.Component {
     constructor() {
