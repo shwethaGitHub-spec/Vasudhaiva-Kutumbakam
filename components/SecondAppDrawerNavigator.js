@@ -1,23 +1,40 @@
 import React from 'react';
 import {createDrawerNavigator} from 'react-navigation-drawer';
-import {FirstAppTabNavigator} from './FirstAppTabNavigator';
+import {SecondAppTabNavigator} from './SecondAppTabNavigator';
 import SecondCustomSideBarMenu from './SecondCustomSideBarMenu';
 import CharityWorkersSettingsScreen from '../screens/CharityWorkersSettingsScreen';
 import MyAcceptedRequests from '../screens/MyAcceptedRequests';
 import CharityWorkersNotificationsScreen from '../screens/CharityWorkersNotificationsScreen';
+import { Image } from 'react-native';
+import {Icon} from 'react-native-elements';
 
 export const SecondAppDrawerNavigator = createDrawerNavigator({
     Home: {
-        screen: FirstAppTabNavigator
+        screen: SecondAppTabNavigator,
+        navigationOptions: {
+            drawerIcon: <Icon name="home" type="fontawesome5"/>
+        }
     },
     MyAcceptedRequests: {
-        screen: MyAcceptedRequests
+        screen: MyAcceptedRequests,
+        navigationOptions: {
+            drawerIcon: <Image source={require("../assets/AcceptedRequest.png")} size={{width: 20, height: 20}}/>,
+            drawerLabel: "My Accepted Requests"
+        }
     },
     Notifications: {
-        screen: CharityWorkersNotificationsScreen
+        screen: CharityWorkersNotificationsScreen,
+        navigationOptions: {
+            drawerIcon: <Icon name="folder" type="font-awesome"/>,
+            drawerLabel: "Notifications"
+        }
     },
     Settings: {
-        screen: CharityWorkersSettingsScreen
+        screen: CharityWorkersSettingsScreen,
+        navigationOptions: {
+            drawerIcon: <Icon name="gears" type="font-awesome" color="#000"/>,
+            drawerLabel: "Settings"
+        }
     }
 }, {
     contentComponent: SecondCustomSideBarMenu

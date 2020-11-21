@@ -1,6 +1,8 @@
 import React from 'react';
 import { Text, View, TextInput, TouchableOpacity, StyleSheet, Alert, Modal, ScrollView, KeyboardAvoidingView, Image, Dimensions } from 'react-native';
 import RegistrationAnimation from '../components/RegistrationAnimation';
+import { Icon } from 'react-native-elements';
+import { RFValue } from 'react-native-responsive-fontsize';
 import db from '../config'; 
 import firebase from 'firebase';
 
@@ -57,7 +59,8 @@ export default class LoginScreen extends React.Component {
                 contact: this.state.contact,
                 email_id: this.state.emailId,
                 first_name: this.state.firstName,
-                last_name: this.state.lastName
+                last_name: this.state.lastName,
+                IsRequestActive: false
             });
         }
     }
@@ -109,7 +112,7 @@ export default class LoginScreen extends React.Component {
                             <Text style={[styles.modalTitle, {marginTop: 25}]}>SIGN UP AS DONATOR</Text>
 
                             <TextInput 
-                                style={styles.input}
+                                style={[styles.input, {marginTop: RFValue(30)}]}
                                 placeholder={"First Name"}
                                 maxLength={8}
                                 onChangeText={e => {this.setState({firstName: e})}}
@@ -166,12 +169,13 @@ export default class LoginScreen extends React.Component {
                                     <Text style={styles.buttonText}>Register</Text>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity 
-                                    style={{justifyContent: 'center', alignItems: 'center', alignSelf: 'center', margin: 30}}
-                                    onPress={() => {this.setState({isDonatorSignUpModalVisible: false})}}
-                                >
-                                    <Text style={{color: '#000', fontWeight: '200', fontSize: 20}}>Cancel</Text>
-                                </TouchableOpacity>
+                                <Icon 
+                                    type="materialicon" 
+                                    name="cancel" 
+                                    size={RFValue(40)} 
+                                    color="#f00" 
+                                    onPress={() => {this.setState({isDonatorSignUpModalVisible:false})}}
+                                />
                             </View>
                         </KeyboardAvoidingView>
                     </ScrollView>
@@ -191,7 +195,7 @@ export default class LoginScreen extends React.Component {
                             <Text style={[styles.modalTitle, {marginTop: 25}]}>SIGN UP AS CHARITY WORKER</Text>
 
                             <TextInput 
-                                style={styles.input}
+                                style={[styles.input, {marginTop: RFValue(30)}]}
                                 placeholder={"First Name"}
                                 maxLength={8}
                                 onChangeText={e => {this.setState({firstName: e})}}
@@ -255,12 +259,13 @@ export default class LoginScreen extends React.Component {
                                     <Text style={styles.buttonText}>Register</Text>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity 
-                                    style={{justifyContent: 'center', alignItems: 'center', alignSelf: 'center', margin: 30}}
-                                    onPress={() => {this.setState({isCharityWorkerSignUpModalVisible: false})}}
-                                >
-                                    <Text style={{color: '#000', fontWeight: '200', fontSize: 20}}>Cancel</Text>
-                                </TouchableOpacity>
+                                <Icon 
+                                    type="materialicon" 
+                                    name="cancel" 
+                                    size={RFValue(40)} 
+                                    color="#f00" 
+                                    onPress={() => {this.setState({isCharityWorkerSignUpModalVisible:false})}}
+                                />
                             </View>
                         </KeyboardAvoidingView>
                     </ScrollView>
@@ -280,7 +285,7 @@ export default class LoginScreen extends React.Component {
                             <Text style={[styles.modalTitle, {marginTop: 25}]}>SIGN IN AS DONATOR</Text>
 
                             <TextInput 
-                                style={styles.input}
+                                style={[styles.input, {marginTop: RFValue(30)}]}
                                 placeholder={"abc@example.com"}
                                 keyboardType={"email-address"}
                                 onChangeText={e => {this.setState({emailId: e})}}
@@ -301,12 +306,13 @@ export default class LoginScreen extends React.Component {
                                     <Text style={styles.buttonText}>Register</Text>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity 
-                                    style={{justifyContent: 'center', alignItems: 'center', alignSelf: 'center', margin: 30}}
+                                <Icon 
+                                    type="materialicon" 
+                                    name="cancel" 
+                                    size={RFValue(40)} 
+                                    color="#f00" 
                                     onPress={() => {this.setState({isDonatorSignInModalVisible: false})}}
-                                >
-                                    <Text style={{color: '#000', fontWeight: '200', fontSize: 20}}>Cancel</Text>
-                                </TouchableOpacity>
+                                />
                             </View>
                         </KeyboardAvoidingView>
                     </ScrollView>
@@ -326,7 +332,7 @@ export default class LoginScreen extends React.Component {
                             <Text style={[styles.modalTitle, {marginTop: 25}]}>SIGN IN AS CHARITY WORKER</Text>
 
                             <TextInput 
-                                style={styles.input}
+                                style={[styles.input, {marginTop: RFValue(30)}]}
                                 placeholder={"abc@example.com"}
                                 keyboardType={"email-address"}
                                 onChangeText={e => {this.setState({emailId: e})}}
@@ -347,12 +353,13 @@ export default class LoginScreen extends React.Component {
                                     <Text style={styles.buttonText}>Register</Text>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity 
-                                    style={{justifyContent: 'center', alignItems: 'center', alignSelf: 'center', margin: 30}}
+                                <Icon 
+                                    type="materialicon" 
+                                    name="cancel" 
+                                    size={RFValue(40)} 
+                                    color="#f00" 
                                     onPress={() => {this.setState({isCharityWorkerSignInModalVisible: false})}}
-                                >
-                                    <Text style={{color: '#000', fontWeight: '200', fontSize: 20}}>Cancel</Text>
-                                </TouchableOpacity>
+                                />
                             </View>
                         </KeyboardAvoidingView>
                     </ScrollView>
@@ -412,7 +419,8 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         fontSize: 20,
         padding: 10,
-        margin: 10
+        margin: 10,
+        marginBottom: RFValue(25)
     },
     button: {
         width: 300,

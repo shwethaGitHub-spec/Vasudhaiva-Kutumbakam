@@ -3,7 +3,7 @@ import {Text, View, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import {ListItem} from 'react-native-elements';
 import firebase from 'firebase';
 import db from '../config';
-import MyHeader from '../components/MyHeader';
+import CharityWorkerHeader from '../components/CharityWorkerHeader';
 
 export class CharityWorkersScreen extends React.Component {
     constructor() {
@@ -59,7 +59,7 @@ export class CharityWorkersScreen extends React.Component {
     render(){
         return(
           <View style={{flex:1, backgroundColor: '#99f3bd'}}>
-            <MyHeader title="Donate Books" navigation ={this.props.navigation}/>
+            <CharityWorkerHeader title="Donate Books" navigation ={this.props.navigation}/>
             <View style={{flex:1}}>
                 {this.state.itemsRequestedToBeDonatedList.length === 0 ? (
                     <View style={styles.subContainer}>

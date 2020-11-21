@@ -1,8 +1,9 @@
 import React from 'react';
 import {Text, View, StyleSheet, TextInput, TouchableOpacity, Alert} from 'react-native';
-import MyHeader from '../components/MyHeader';
+import DonatorHeader from '../components/DonatorHeader';
 import db from '../config';
 import firebase from 'firebase';
+import { RFValue } from 'react-native-responsive-fontsize'; 
 
 export default class DonatorsSettingsScreen extends React.Component {
     constructor() {
@@ -48,12 +49,16 @@ export default class DonatorsSettingsScreen extends React.Component {
         Alert.alert("Profile Updated Successfully");
     }
 
+    componentDidMount() {
+        this.getUserDetails();
+    }
+
     render() {
         return (
             <View style={styles.container}>
-                <MyHeader title="Settings" navigation={this.props.navigation}/>
+                <DonatorHeader title="Settings" navigation={this.props.navigation}/>
                 <TextInput 
-                    style={styles.formTextInput}
+                    style={[styles.formTextInput], {marginTop: RFValue(30)}}
                     placeholder={"First Name"}
                     maxLength={8}
                     onChangeText={(text) => {
@@ -134,18 +139,19 @@ const styles = StyleSheet.create({
     formContainer:{
       flex:1,
       width:'100%',
-      alignItems: 'center',
-      backgroundColor: "#fff"
+      alignItems: 'center'
     },
     formTextInput:{
       width:"75%",
       height:35,
       alignSelf:'center',
       borderColor:'#ffab91',
+      backgroundColor: '#fff',
       borderRadius:10,
       borderWidth:1,
       marginTop:20,
       padding:10,
+      marginBottom: RFValue(25)
     },
     button:{
       width:"75%",

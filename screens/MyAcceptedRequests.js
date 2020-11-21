@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 import {ListItem} from 'react-native-elements';
-import MyHeader from '../components/MyHeader';
+import CharityWorkerHeader from '../components/CharityWorkerHeader';
 import firebase from 'firebase';
 import db from '../config';
 
@@ -117,7 +117,7 @@ export default class MyAcceptedRequests extends React.Component {
     render() {
         return (
             <View style={{flex:1}}>
-                <MyHeader navigation={this.props.navigation} title="My Donations"/>
+                <CharityWorkerHeader navigation={this.props.navigation} title="My Accepted Requests"/>
 
                 <View style={{flex:1}}>
                     {this.state.allDonations.length !== 0 ? (

@@ -1,7 +1,8 @@
 import React from 'react';
 import {Text, View, FlatList} from 'react-native';
 import {ListItem} from 'react-native-elements';
-import MyHeader from '../components/MyHeader';
+import DonatorHeader from '../components/DonatorHeader';
+import DonatorSwipeableFlatlist from '../components/DonatorSwipeableFlatlist';
 import firebase from 'firebase';
 import db from '../config';
 
@@ -55,9 +56,9 @@ export class DonatorsNotificationsScreen extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View style={{flex: 1}}>
                 <View style={{flex: 0.1}}>
-                    <MyHeader title={"Notifications"} navigation={this.props.navigation}/>
+                    <DonatorHeader title={"Notifications"} navigation={this.props.navigation}/>
                 </View>
 
                 <View style={{flex: 0.9}}>
@@ -66,11 +67,7 @@ export class DonatorsNotificationsScreen extends React.Component {
                             <Text style={{fontSize: 25}}>You have no notifications</Text>
                         </View>
                     ):(
-                        <FlatList 
-                            keyExtractor={this.keyExtractor}
-                            data={this.state.allNotifications}
-                            renderItem={this.renderItem}
-                        />
+                        <DonatorSwipeableFlatlist allNotifications={this.state.allNotifications}/>
                     )}
                 </View>
             </View>
