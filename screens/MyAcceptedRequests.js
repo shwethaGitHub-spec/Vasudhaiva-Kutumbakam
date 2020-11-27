@@ -120,7 +120,7 @@ export default class MyAcceptedRequests extends React.Component {
                 <CharityWorkerHeader navigation={this.props.navigation} title="My Accepted Requests"/>
 
                 <View style={{flex:1}}>
-                    {this.state.allDonations.length !== 0 ? (
+                    {this.state.allAcceptedRequests.length !== 0 ? (
                         <FlatList
                             keyExtractor={this.keyExtractor}
                             data={this.state.allAcceptedRequests}

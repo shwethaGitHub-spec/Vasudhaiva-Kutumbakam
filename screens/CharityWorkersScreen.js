@@ -1,7 +1,6 @@
 import React from 'react';
 import {Text, View, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import {ListItem} from 'react-native-elements';
-import firebase from 'firebase';
 import db from '../config';
 import CharityWorkerHeader from '../components/CharityWorkerHeader';
 
@@ -9,7 +8,6 @@ export class CharityWorkersScreen extends React.Component {
     constructor() {
         super();
         this.state = {
-            userId: firebase.auth().currentUser.email,
             itemsRequestedToBeDonatedList: []
         }
 
@@ -17,8 +15,9 @@ export class CharityWorkersScreen extends React.Component {
     }
 
     getAllRequests = () => {
-        this.request = db.collection('items_requested_to_donate').onSnapshot((snapshot) => {
+        this.requestRef = db.collection('items_requested_to_donate').onSnapshot((snapshot) => {
             var itemsRequestedToBeDonatedList = snapshot.docs.map((doc) => doc.data());
+            console.log(itemsRequestedToBeDonatedList);
             this.setState({
                 itemsRequestedToBeDonatedList: itemsRequestedToBeDonatedList
             });
@@ -30,7 +29,7 @@ export class CharityWorkersScreen extends React.Component {
     }
 
     componentWillUnmount() {
-        this.requestRef;
+        this.requestRef();
     }
 
     keyExtractor = (item, index) => index.toString();
@@ -45,7 +44,7 @@ export class CharityWorkersScreen extends React.Component {
                     <TouchableOpacity 
                         style={styles.button}
                         onPress={() => {
-                            this.props.navigation.navigate('DonatorDetails', {'details': item})
+                           this.props.navigation.navigate('DonatorDetails', {'details': item})
                         }}
                     >
                         <Text style={{color:'#ffff'}}>View</Text>
@@ -58,21 +57,21 @@ export class CharityWorkersScreen extends React.Component {
 
     render(){
         return(
-          <View style={{flex:1, backgroundColor: '#99f3bd'}}>
-            <CharityWorkerHeader title="Donate Books" navigation ={this.props.navigation}/>
-            <View style={{flex:1}}>
-                {this.state.itemsRequestedToBeDonatedList.length === 0 ? (
-                    <View style={styles.subContainer}>
-                        <Text style={{ fontSize: 20}}>List Of All Items Requested To Be Donated</Text>
-                    </View>
-                ):(
-                    <FlatList
-                        keyExtractor={this.keyExtractor}
-                        data={this.state.itemsRequestedToBeDonatedList}
-                        renderItem={this.renderItem}
-                    />
-                )}
-            </View>
+            <View style={{flex:1, backgroundColor: '#99f3bd'}}>
+                <CharityWorkerHeader title="Donate Books" navigation ={this.props.navigation}/>
+                <View style={{flex:1}}>
+                    {this.state.itemsRequestedToBeDonatedList.length === 0 ? (
+                        <View style={styles.subContainer}>
+                            <Text style={{ fontSize: 20}}>List Of All Items Requested To Be Donated</Text>
+                        </View>
+                    ):(
+                        <FlatList
+                            keyExtractor={this.keyExtractor}
+                            data={this.state.itemsRequestedToBeDonatedList}
+                            renderItem={this.renderItem}
+                        />
+                    )}
+                </View>
           </View>
         )
     }

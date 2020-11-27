@@ -18,7 +18,7 @@ export const SecondAppDrawerNavigator = createDrawerNavigator({
     MyAcceptedRequests: {
         screen: MyAcceptedRequests,
         navigationOptions: {
-            drawerIcon: <Image source={require("../assets/AcceptedRequest.png")} size={{width: 20, height: 20}}/>,
+            drawerIcon: <Image source={require("../assets/AcceptedRequest.png")} size={{width: 10, height: 10}}/>,
             drawerLabel: "My Accepted Requests"
         }
     },
