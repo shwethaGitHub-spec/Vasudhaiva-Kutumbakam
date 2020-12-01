@@ -13,7 +13,7 @@ export default class DonatorSwipeableFlatlist extends React.Component {
     }
 
     updateMarkAsRead = (notification) => {
-        db.collection("all_notifications").doc(notification.doc_id).update({
+        db.collection("donators_notifications").doc(notification.doc_id).update({
             notification_status: "read"
         });
     }

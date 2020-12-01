@@ -21,7 +21,7 @@ export default class DonatorHeader extends React.Component {
                     type="font-awesome" 
                     color="#696969" 
                     size={25} 
-                    onPress={() => {this.props.navigation.navigate("Notifications")}}
+                    onPress={() => {this.props.navigation.navigate("DonatorsNotifications")}}
                 />
     
                 <Badge 

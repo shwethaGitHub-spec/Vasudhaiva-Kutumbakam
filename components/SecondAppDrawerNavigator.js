@@ -22,14 +22,14 @@ export const SecondAppDrawerNavigator = createDrawerNavigator({
             drawerLabel: "My Accepted Requests"
         }
     },
-    Notifications: {
+    CharityWorkersNotifications: {
         screen: CharityWorkersNotificationsScreen,
         navigationOptions: {
             drawerIcon: <Icon name="folder" type="font-awesome"/>,
             drawerLabel: "Notifications"
         }
     },
-    Settings: {
+    CharityWorkersSettings: {
         screen: CharityWorkersSettingsScreen,
         navigationOptions: {
             drawerIcon: <Icon name="gears" type="font-awesome" color="#000"/>,

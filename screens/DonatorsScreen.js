@@ -83,16 +83,16 @@ export class DonatorsScreen extends React.Component {
                 var name = doc.data().first_name;
                 var lastName = doc.data().last_name;
 
-                db.collection("all_notifications").where("request_id", "==", this.state.requestId).get().then((snapshot) => {
+                db.collection("donators_notifications").where("request_id", "==", this.state.requestId).get().then((snapshot) => {
                     snapshot.forEach((doc) => {
                         var charityWorkerId = doc.data().charity_worker_id;
                         var itemRequestedToDonate = doc.data().name_of_item_requested_to_donate;
 
-                        db.collection("all_notifications").add({
+                        db.collection("charity_workers_notifications").add({
                             "notification_status": "unread",
                             "item_requested_to_donate": itemRequestedToDonate,
                             "charity_worker_id": charityWorkerId,
-                            "message": "The" + " " + itemRequestedToDonate + " " + "was collected from" + name + " " + lastName
+                            "message": "The" + " " + itemRequestedToDonate + " " + "was collected from" + " " + name + " " + lastName
                         });
                     });
                 });
@@ -119,7 +119,7 @@ export class DonatorsScreen extends React.Component {
             "request_status": "item requested to donate collected",
             "user_id": this.state.userId,
             "request_id": this.state.requestId,
-            "item_requested_to_donate": this.state.itemRequestedToDonate
+            "item_requested_to_donate": this.state.itemRequestedToDonateName
         });
     }
 
@@ -166,6 +166,8 @@ export class DonatorsScreen extends React.Component {
                                 style={styles.formTextInput}
                                 onChangeText={e => {this.setState({itemRequestedToDonate: e})}}
                                 value={this.state.itemRequestedToDonate}
+                                multiline={true}
+                                numberOfLines={2}
                             />
     
                             <TouchableOpacity style={styles.button} onPress={() => {this.addRequest(this.state.itemRequestedToDonate)}}>
@@ -186,7 +188,7 @@ const styles = StyleSheet.create({
       justifyContent:'center'
     },
     formTextInput:{
-      width:"90%",
+      width:"96%",
       height:35,
       alignSelf:'center',
       borderColor:'#ffab91',

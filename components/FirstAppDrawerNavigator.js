@@ -15,14 +15,14 @@ export const FirstAppDrawerNavigator = createDrawerNavigator({
             drawerIcon: <Icon name="home" type="fontawesome5"/>
         }
     },
-    Notifications: {
+    DonatorsNotifications: {
         screen: DonatorsNotificationsScreen,
         navigationOptions: {
             drawerIcon: <Icon name="folder" type="font-awesome"/>,
             drawerLabel: "Notifications"
         }
     },
-    Settings: {
+    DonatorsSettings: {
         screen: DonatorsSettingsScreen,
         navigationOptions: {
             drawerIcon: <Icon name="gears" type="font-awesome" color="#000"/>,

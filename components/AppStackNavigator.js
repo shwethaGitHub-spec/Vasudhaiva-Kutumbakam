@@ -18,6 +18,6 @@ export const AppStackNavigator = createStackNavigator({
     }
 }, 
     {
-        initialRouteName: "CharityWorkersScreen"
+        initialRouteName: "CharityWorkers"
     }
 );

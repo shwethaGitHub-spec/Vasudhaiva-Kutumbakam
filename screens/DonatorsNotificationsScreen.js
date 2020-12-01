@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, FlatList} from 'react-native';
+import {Text, View} from 'react-native';
 import {ListItem} from 'react-native-elements';
 import DonatorHeader from '../components/DonatorHeader';
 import DonatorSwipeableFlatlist from '../components/DonatorSwipeableFlatlist';
@@ -18,7 +18,7 @@ export class DonatorsNotificationsScreen extends React.Component {
     }
 
     getNotifications = () => {
-        this.notificationRef = db.collection("all_notifications").where("donator_id", "==", this.state.userId).where("notification_status", "==", "unread").onSnapshot((snapshot) => {
+        this.notificationRef = db.collection("donators_notifications").where("donator_id", "==", this.state.userId).where("notification_status", "==", "unread").onSnapshot((snapshot) => {
             var allNotifications = [];
             snapshot.docs.map((doc) => {
                 var notification = doc.data();
@@ -28,12 +28,13 @@ export class DonatorsNotificationsScreen extends React.Component {
 
             this.setState({
                 allNotifications: allNotifications
-            })
+            });
         });
     }
 
     componentDidMount() {
         this.getNotifications();
+        console.log();
     }
 
     componentWillUnmount() {
@@ -58,16 +59,16 @@ export class DonatorsNotificationsScreen extends React.Component {
         return (
             <View style={{flex: 1}}>
                 <View style={{flex: 0.1}}>
-                    <DonatorHeader title={"Notifications"} navigation={this.props.navigation}/>
+                    <DonatorHeader title="Notifications" navigation={this.props.navigation}/>
                 </View>
 
                 <View style={{flex: 0.9}}>
-                    {this.state.allNotifications.length === 0 ? (
+                    {this.state.allNotifications.length !== 0 ? (
+                        <DonatorSwipeableFlatlist allNotifications={this.state.allNotifications}/>
+                    ):(
                         <View style={{justifyContent: "center", alignItems: "center", flex: 1}}>
                             <Text style={{fontSize: 25}}>You have no notifications</Text>
                         </View>
-                    ):(
-                        <DonatorSwipeableFlatlist allNotifications={this.state.allNotifications}/>
                     )}
                 </View>
             </View>

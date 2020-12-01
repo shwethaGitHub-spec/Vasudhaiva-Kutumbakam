@@ -17,7 +17,6 @@ export class CharityWorkersScreen extends React.Component {
     getAllRequests = () => {
         this.requestRef = db.collection('items_requested_to_donate').onSnapshot((snapshot) => {
             var itemsRequestedToBeDonatedList = snapshot.docs.map((doc) => doc.data());
-            console.log(itemsRequestedToBeDonatedList);
             this.setState({
                 itemsRequestedToBeDonatedList: itemsRequestedToBeDonatedList
             });

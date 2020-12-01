@@ -13,7 +13,8 @@ export default class MyAcceptedRequests extends React.Component {
         this.state = {
             charityWorkerId: firebase.auth().currentUser.email,
             charityWorkerName: "",
-            allAcceptedRequests: []
+            allAcceptedRequests: [],
+            documentId: ""
         }
 
         this.requestRef = null;
@@ -30,7 +31,7 @@ export default class MyAcceptedRequests extends React.Component {
     }
 
     getAllAcceptedRequests = () => {
-        this.requestRef = db.collection("all_acceptedRequests").where("charity_worker_id", '==', this.state.userId)
+        this.requestRef = db.collection("all_acceptedRequests").where("charity_worker_id", '==', this.state.charityWorkerId)
         .onSnapshot((snapshot) => {
             var allAcceptedRequests = snapshot.docs.map((doc) => doc.data());
             this.setState({
@@ -40,28 +41,33 @@ export default class MyAcceptedRequests extends React.Component {
     }
 
     collectItemRequestedToDonate = (itemRequestedToDonateDetails) => {
-        if (itemRequestedToDonateDetails.request_status === "Requested Item Collected") {
-            var requestStatus = "Charity Worker Interested";
-            db.collection("all_acceptedRequests").doc(itemRequestedToDonateDetails.doc_id).update({
-                request_status: "Charity Worker Interested"
-            });
+        db.collection("all_acceptedRequests").where("request_id", "==", itemRequestedToDonateDetails.request_id).get().then((snapshot) => {
+            snapshot.forEach((doc) => {
+                if (itemRequestedToDonateDetails.request_status === "Requested Item Collected") {
+                    var requestStatus = "Charity Worker Interested";
+                    db.collection("all_acceptedRequests").doc(doc.id).update({
+                        request_status: "Charity Worker Interested"
+                    });
+        
+                    this.sendNotification(itemRequestedToDonateDetails, requestStatus);
+                } else {
+                    var requestStatus = "Requested Item Collected";
+                    db.collection("all_acceptedRequests").doc(doc.id).update({
+                        request_status: "Requested Item Collected"
+                    });
+        
+                    this.sendNotification(itemRequestedToDonateDetails, requestStatus);
+                }
 
-            this.sendNotification(itemRequestedToDonateDetails, requestStatus);
-        } else {
-            var requestStatus = "Requested Item Collected";
-            db.collection("all_acceptedRequests").doc(itemRequestedToDonateDetails.doc_id).update({
-                request_status: "Requested Item Collected"
+                this.setState({documentId: doc.id})
             });
-
-            this.sendNotification(itemRequestedToDonateDetails, requestStatus);
-        }
+        });
     }
 
     sendNotification = (itemRequestedToDonateDetails, requestStatus) => {
         var requestId = itemRequestedToDonateDetails.request_id;
         var charityWorkerId = itemRequestedToDonateDetails.charity_worker_id;
-
-        db.collection("all_notifications")
+        db.collection("donators_notifications")
         .where("request_id", "==", requestId)
         .where("charity_worker_id", "==", charityWorkerId)
         .get()
@@ -71,11 +77,11 @@ export default class MyAcceptedRequests extends React.Component {
                 
                 if (requestStatus === "Requested Item Collected") {
                     message = this.state.charityWorkerName + " has collected the item which you requested to donate";
-                } else {
-                    message = this.state.charityWorkerName + "has shown interest in collecting the item which you have requested to donate";
+                } else if (requestStatus === "Charity Worker Interested") {
+                    message = this.state.charityWorkerName + " has shown interest in collecting the item which you have requested to donate";
                 }
 
-                db.collection("all_notifications").doc(doc.id).update({
+                db.collection("donators_notifications").doc(doc.id).update({
                     "message": message,
                     "notification_status": "unread",
                     "date": firebase.firestore.FieldValue.serverTimestamp()
@@ -90,24 +96,27 @@ export default class MyAcceptedRequests extends React.Component {
         <ListItem
             key={i}
             title={item.item_requested_to_donate}
-            subtitle={"Requested to Donate By : " + item.person_requesting_to_donate +"\nStatus : " + item.request_status}
+            subtitle={"Requested to Donate By : " + item.person_requesting_to_donate +"\n\n\nStatus : " + item.request_status}
             titleStyle={{ color: 'black', fontWeight: 'bold' }}
             rightElement={
                 <TouchableOpacity 
                     style={[styles.button, {backgroundColor: item.request_status === "Requested Item Collected" ? "green" : "#ff5722"}]}
-                    onPress={() => {this.collectItemRequestedToDonate(item)}}
+                    onPress={() => {
+                        this.collectItemRequestedToDonate(item);
+                    }}
                 >
                     <Text style={{color:'#ffff'}}>
                         {item.request_status === "Requested Item Collected" ? "Requested Item Collected" : "Collect the Requested Item"}
                     </Text>
                 </TouchableOpacity>
-                }
+            }
             bottomDivider
         />
     );
 
     componentDidMount() {
         this.getAllAcceptedRequests();
+        this.getCharityWorkerDetails();
     }
 
     componentWillUnmount() {
@@ -139,7 +148,7 @@ export default class MyAcceptedRequests extends React.Component {
 
 const styles = StyleSheet.create({
     button:{
-        width:100,
+        width:165,
         height:30,
         justifyContent:'center',
         alignItems:'center',

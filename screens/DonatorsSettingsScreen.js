@@ -58,7 +58,7 @@ export default class DonatorsSettingsScreen extends React.Component {
             <View style={styles.container}>
                 <DonatorHeader title="Settings" navigation={this.props.navigation}/>
                 <TextInput 
-                    style={[styles.formTextInput], {marginTop: RFValue(30)}}
+                    style={styles.formTextInput}
                     placeholder={"First Name"}
                     maxLength={8}
                     onChangeText={(text) => {

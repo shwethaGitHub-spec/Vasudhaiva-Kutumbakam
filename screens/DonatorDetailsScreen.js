@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, StyleSheet, ScrollView} from 'react-native';
+import {Text, View, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
 import {Card} from 'react-native-elements';
 import firebase from 'firebase';
 import db from '../config';
@@ -12,7 +12,7 @@ export default class DonatorDetailsScreen extends React.Component {
             userName: "",
             donatorId: this.props.navigation.getParam("details")["user_id"],
             requestId: this.props.navigation.getParam("details")["request_id"],
-            itemRequestedToDonate: this.props.navigation.g("details")["item_requested_to_donate"],
+            itemRequestedToDonate: this.props.navigation.getParam("details")["item_requested_to_donate"],
             donatorName: "",
             donatorContact: "",
             donatorAddress: "",
@@ -22,7 +22,7 @@ export default class DonatorDetailsScreen extends React.Component {
     }
 
     getDonatorDetails = () => {
-        db.collection("users").where("email_id", "==", this.state.donatorId).get().then((snapshot) => {
+        db.collection("donators").where("email_id", "==", this.state.donatorId).get().then((snapshot) => {
             snapshot.forEach((doc) => {
                 this.setState({
                     donatorName: doc.data().first_name,
@@ -64,7 +64,7 @@ export default class DonatorDetailsScreen extends React.Component {
 
     addNotification = () => {
         var message = this.state.userName + " has shown interest in taking the " + this.state.nameOfItemRequestedToDonate + " you requested to donate ";
-        db.collection("all_notifications").add({
+        db.collection("donators_notifications").add({
             "donator_id": this.state.donatorId,
             "charity_worker_id": this.state.userId,
             "request_id": this.state.requestId,

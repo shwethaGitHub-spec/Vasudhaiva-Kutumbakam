@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, FlatList} from 'react-native';
+import {Text, View} from 'react-native';
 import {ListItem} from 'react-native-elements';
 import CharityWorkerHeader from '../components/CharityWorkerHeader';
 import CharityWorkerSwipeableFlatlist from '../components/CharityWorkerSwipeableFlatlist';
@@ -18,7 +18,7 @@ export class CharityWorkersNotificationsScreen extends React.Component {
     }
 
     getNotifications = () => {
-        this.notificationRef = db.collection("all_notifications").where("charity_worker_id", "==", this.state.userId).where("notification_status", "==", "unread").onSnapshot((snapshot) => {
+        this.notificationRef = db.collection("charity_workers_notifications").where("charity_worker_id", "==", this.state.userId).where("notification_status", "==", "unread").onSnapshot((snapshot) => {
             var allNotifications = [];
             snapshot.docs.map((doc) => {
                 var notification = doc.data();
@@ -58,16 +58,16 @@ export class CharityWorkersNotificationsScreen extends React.Component {
         return (
             <View style={{flex: 1}}>
                 <View style={{flex: 0.1}}>
-                    <CharityWorkerHeader title={"Notifications"} navigation={this.props.navigation}/>
+                    <CharityWorkerHeader title="Notifications" navigation={this.props.navigation}/>
                 </View>
 
                 <View style={{flex: 0.9}}>
-                    {this.state.allNotifications.length === 0 ? (
+                    {this.state.allNotifications.length !== 0 ? (
+                        <CharityWorkerSwipeableFlatlist allNotifications={this.state.allNotifications}/>
+                    ):(
                         <View style={{justifyContent: "center", alignItems: "center", flex: 1}}>
                             <Text style={{fontSize: 25}}>You have no notifications</Text>
                         </View>
-                    ):(
-                        <CharityWorkerSwipeableFlatlist allNotifications={this.state.allNotifications}/>
                     )}
                 </View>
             </View>

@@ -21,7 +21,7 @@ export default class CharityWorkerHeader extends React.Component {
                     type="font-awesome" 
                     color="#696969" 
                     size={25} 
-                    onPress={() => {this.props.navigation.navigate("Notifications")}}
+                    onPress={() => {this.props.navigation.navigate("CharityWorkersNotifications")}}
                 />
     
                 <Badge 
@@ -33,7 +33,7 @@ export default class CharityWorkerHeader extends React.Component {
     }
 
     getNumberOfUnreadNotifications = () => {
-        db.collection("all_notifications").where("donator_id", "==", this.state.userId).where("notification_status", "==", "unread").onSnapshot((snapshot) => {
+        db.collection("all_notifications").where("charity_worker_id", "==", this.state.userId).where("notification_status", "==", "unread").onSnapshot((snapshot) => {
             var unreadNotifications = snapshot.docs.map((doc) => doc.data());
             this.setState({
                 unreadNotifications: unreadNotifications.length

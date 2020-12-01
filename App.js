@@ -3,6 +3,7 @@ import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import LoginScreen from './screens/LoginScreen';
 import {FirstAppDrawerNavigator} from './components/FirstAppDrawerNavigator';
 import {SecondAppDrawerNavigator} from './components/SecondAppDrawerNavigator';
+import {SecondAppTabNavigator} from './components/SecondAppTabNavigator';
 
 export default class App extends React.Component {
   render() {
