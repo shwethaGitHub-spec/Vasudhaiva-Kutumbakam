@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity, TouchableHighlight, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Animated } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import db from '../config';
@@ -38,21 +38,19 @@ export default class DonatorSwipeableFlatlist extends React.Component {
         console.log("This row is opened", key);
     }
 
-    renderItem = (data) => {
-        <TouchableHighlight>
+    renderItem = (data) => (
+        <Animated.View>
             <ListItem 
                 title={data.item.name_of_item_requested_to_donate}
                 titleStyle={{color: 'black', fontWeight: 'bold'}}
                 subtitle={data.item.message}
                 bottomDivider
             />
-        </TouchableHighlight>
-    }
+        </Animated.View>
+    );
 
-    renderHiddenItem = (data, item) => {
+    renderHiddenItem = (data, item) => (
         <View style={styles.rowBack}>
-            <Text>Left</Text>
-
             <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnLeft]} onPress={() => this.closeRow(item, data.item.key)}>
                 <Text style={styles.backTextWhite}>Close</Text>
             </TouchableOpacity>
@@ -61,23 +59,21 @@ export default class DonatorSwipeableFlatlist extends React.Component {
                 <Text style={styles.backTextWhite}>Mark as Read</Text>
             </TouchableOpacity>
         </View>
-    }
+    );
 
     render() {
         return (
-            <View>
-                <View style={styles.container}>
-                    <SwipeListView
-                        data={this.state.allNotifications}
-                        renderItem={this.renderItem}
-                        renderHiddenItem={this.renderHiddenItem}
-                        leftOpenValue={75}
-                        rightOpenValue={-150}
-                        previewRowKey={'0'}
-                        previewOpenValue={-40}
-                        previewOpenDelay={3000}
-                    />
-                </View>
+            <View style={styles.container}>
+                <SwipeListView
+                    data={this.state.allNotifications}
+                    renderItem={this.renderItem}
+                    renderHiddenItem={this.renderHiddenItem}
+                    leftOpenValue={75}
+                    rightOpenValue={-150}
+                    previewRowKey={'0'}
+                    previewOpenValue={-40}
+                    previewOpenDelay={3000}
+                />
             </View>
         )
     }

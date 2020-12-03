@@ -57,7 +57,7 @@ export class CharityWorkersScreen extends React.Component {
     render(){
         return(
             <View style={{flex:1, backgroundColor: '#99f3bd'}}>
-                <CharityWorkerHeader title="Donate Books" navigation ={this.props.navigation}/>
+                <CharityWorkerHeader title="List of All Requests to Donate" navigation ={this.props.navigation}/>
                 <View style={{flex:1}}>
                     {this.state.itemsRequestedToBeDonatedList.length === 0 ? (
                         <View style={styles.subContainer}>
